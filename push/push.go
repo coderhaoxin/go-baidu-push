@@ -1,11 +1,15 @@
 package push
 
 import (
+	"net/url"
+	"strings"
 	"time"
+
+	"github.com/coderhaoxin/go-convert/cov"
 )
 
 type Push struct {
-	host      string
+	url       string
 	apiKey    string
 	secretKey string
 }
@@ -15,11 +19,11 @@ func New(options map[string]string) *Push {
 		apiKey:    options["apiKey"],
 		secretKey: options["secretKey"],
 	}
-	if host, ok := options["host"]; ok {
-		p.host = host
+	if url, ok := options["url"]; ok {
+		p.url = url
 	} else {
-		// default host
-		p.host = "channel.api.duapp.com/rest/2.0/channel/"
+		// default url
+		p.url = "http://channel.api.duapp.com/rest/2.0/channel"
 	}
 
 	return p
@@ -27,30 +31,44 @@ func New(options map[string]string) *Push {
 
 // base api
 
-func (p *Push) QueryBindList(options ...map[string]interface{}) (map[string]interface{}, error) {
+func (p *Push) QueryBindList(options map[string]string) (map[string]interface{}, error) {
 	var httpMethod = "POST"
-	var httpUrl = p.host
+	var httpUrl = p.url + "/channel"
 
 	options["method"] = "query_bindlist"
 	options["apikey"] = p.apiKey
-	options["timestamp"] = time.Now().Unix()
+	options["timestamp"], _ = cov.String(time.Now().Unix())
 
 	sign, err := GenerateSign(httpMethod, httpUrl, p.secretKey, options)
 	options["sign"] = sign
-	return options, err
+
+	// headers := make(map[string]interface{})
+
+	v := url.Values{}
+	v.Add("method", options["method"])
+	v.Add("apikey", options["apikey"])
+	v.Add("timestamp", options["timestamp"])
+	v.Add("sign", options["sign"])
+	res, err := Request("POST", httpUrl, nil, strings.NewReader(v.Encode()))
+
+	return res, err
 }
 
-func (p *Push) PushMsg(options map[string]interface{}, messages map[string]string) (map[string]interface{}, error) {
+func (p *Push) PushMsg(options map[string]string, messages map[string]string) (map[string]interface{}, error) {
 	var httpMethod = "POST"
-	var httpUrl = p.host
+	var httpUrl = p.url + "/channel"
 
 	options["method"] = "push_msg"
 	options["apikey"] = p.apiKey
-	options["timestamp"] = time.Now().Unix()
+	options["timestamp"], _ = cov.String(time.Now().Unix())
 
 	sign, err := GenerateSign(httpMethod, httpUrl, p.secretKey, options)
 	options["sign"] = sign
-	return options, err
+
+	method, _ := cov.String(options["method"])
+	res, err := Request(method, httpUrl, nil, nil)
+
+	return res, err
 }
 
 // advanced api
