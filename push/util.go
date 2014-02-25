@@ -4,7 +4,6 @@ import (
 	"crypto/md5"
 	"encoding/base64"
 	"errors"
-	"io"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -27,18 +26,28 @@ func GenerateSign(httpMethod string, httpUrl string, secretKey string, keyValues
 	return base64.StdEncoding.EncodeToString(h.Sum(nil)), nil
 }
 
-func Request(method, url string, headers map[string]string, body io.Reader) (map[string]interface{}, error) {
-	req, err := http.NewRequest(method, url, body)
+func Request(method, httpUrl string, headers, options map[string]string) (map[string]interface{}, error) {
+	v := url.Values{}
+	v.Add("method", options["method"])
+	v.Add("apikey", options["apikey"])
+	v.Add("timestamp", options["timestamp"])
+	v.Add("sign", options["sign"])
+
+	body := strings.NewReader(v.Encode())
+	req, err := http.NewRequest(method, httpUrl, body)
 	if err != nil {
 		return nil, errors.New("new http request error")
 	}
+
 	// set http headers
 	for k, v := range headers {
 		req.Header.Add(k, v)
 	}
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 
 	// do http request
-	res, err := http.DefaultClient.Do(req)
+	client := &http.Client{}
+	res, err := client.Do(req)
 	if err != nil {
 		return nil, errors.New("do http request error")
 	}
