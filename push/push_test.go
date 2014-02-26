@@ -16,7 +16,6 @@ func TestQueryBindList(t *testing.T) {
 	options["start"] = "0"
 	options["limit"] = "30"
 	result, err := push.QueryBindList(options)
-	fmt.Println(result, err)
 }
 
 func TestPushMsg(t *testing.T) {
@@ -26,5 +25,58 @@ func TestPushMsg(t *testing.T) {
 	messages := make(map[string]string)
 	messages["hello"] = "baidu push"
 	result, err := push.PushMsg(options, messages)
-	fmt.Println(result, err)
+}
+
+func TestVerifyBind(t *testing.T) {
+	options := make(map[string]string)
+	options["user_id"] = "xxoo10086"
+	result, err := push.QueryBindList(options)
+}
+
+func TestFetchMsg(t *testing.T) {
+	options := make(map[string]string)
+	options["user_id"] = "xxoo10086"
+	result, err := push.QueryBindList(options)
+}
+
+func TestFetchMsgCount(t *testing.T) {
+	options := make(map[string]string)
+	options["user_id"] = "xxoo10086"
+	result, err := push.QueryBindList(options)
+}
+
+func TestDeleteMsg(t *testing.T) {
+	options := make(map[string]string)
+	options["user_id"] = "xxoo10086"
+	result, err := push.QueryBindList(options)
+}
+
+func TestSetTag(t *testing.T) {
+	options := make(map[string]string)
+	options["user_id"] = "xxoo10086"
+	result, err := push.QueryBindList(options)
+}
+
+func TestFetchTag(t *testing.T) {
+	options := make(map[string]string)
+	options["user_id"] = "xxoo10086"
+	result, err := push.QueryBindList(options)
+}
+
+func TestDeleteTag(t *testing.T) {
+	options := make(map[string]string)
+	options["user_id"] = "xxoo10086"
+	result, err := push.QueryBindList(options)
+}
+
+func TestQueryUserTags(t *testing.T) {
+	options := make(map[string]string)
+	options["user_id"] = "xxoo10086"
+	result, err := push.QueryBindList(options)
+}
+
+func TestQueryDeviceType(t *testing.T) {
+	options := make(map[string]string)
+	options["user_id"] = "xxoo10086"
+	result, err := push.QueryBindList(options)
 }

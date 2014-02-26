@@ -30,15 +30,10 @@ func New(options map[string]string) *Push {
 // base api
 
 func (p *Push) QueryBindList(options map[string]string) (map[string]interface{}, error) {
-	var httpMethod = "POST"
 	var httpUrl = p.url + "/channel"
 
 	options["method"] = "query_bindlist"
-	options["apikey"] = p.apiKey
-	options["timestamp"], _ = cov.String(time.Now().Unix())
-
-	sign, err := GenerateSign(httpMethod, httpUrl, p.secretKey, options)
-	options["sign"] = sign
+	addDefaultOptions(options, httpUrl, p.apiKey, p.secretKey)
 
 	res, err := Request("POST", httpUrl, nil, options)
 
@@ -46,55 +41,121 @@ func (p *Push) QueryBindList(options map[string]string) (map[string]interface{},
 }
 
 func (p *Push) PushMsg(options map[string]string, messages map[string]string) (map[string]interface{}, error) {
-	var httpMethod = "POST"
 	var httpUrl = p.url + "/channel"
 
 	options["method"] = "push_msg"
-	options["apikey"] = p.apiKey
-	options["timestamp"], _ = cov.String(time.Now().Unix())
+	addDefaultOptions(options, httpUrl, p.apiKey, p.secretKey)
 
-	sign, err := GenerateSign(httpMethod, httpUrl, p.secretKey, options)
-	options["sign"] = sign
-
-	res, err := Request("POST", httpUrl, nil, nil)
+	res, err := Request("POST", httpUrl, nil, options)
 
 	return res, err
 }
 
 // advanced api
 
-func (p *Push) VerifyBind() {
+func (p *Push) VerifyBind(options map[string]string) (map[string]interface{}, error) {
+	var httpUrl = p.url + "/channel"
 
+	options["method"] = "verify_bind"
+	addDefaultOptions(options, httpUrl, p.apiKey, p.secretKey)
+
+	res, err := Request("POST", httpUrl, nil, options)
+
+	return res, err
 }
 
-func (p *Push) FetchMsg() {
+func (p *Push) FetchMsg(options map[string]string) (map[string]interface{}, error) {
+	var httpUrl = p.url + "/channel"
 
+	options["method"] = "fetch_msg"
+	addDefaultOptions(options, httpUrl, p.apiKey, p.secretKey)
+
+	res, err := Request("POST", httpUrl, nil, options)
+
+	return res, err
 }
 
-func (p *Push) FetchMsgCount() {
+func (p *Push) FetchMsgCount(options map[string]string) (map[string]interface{}, error) {
+	var httpUrl = p.url + "/channel"
 
+	options["method"] = "fetch_msgcount"
+	addDefaultOptions(options, httpUrl, p.apiKey, p.secretKey)
+
+	res, err := Request("POST", httpUrl, nil, options)
+
+	return res, err
 }
 
-func (p *Push) DeleteMsg() {
+func (p *Push) DeleteMsg(options map[string]string) (map[string]interface{}, error) {
+	var httpUrl = p.url + "/channel"
 
+	options["method"] = "delete_msg"
+	addDefaultOptions(options, httpUrl, p.apiKey, p.secretKey)
+
+	res, err := Request("POST", httpUrl, nil, options)
+
+	return res, err
 }
 
-func (p *Push) SetTag() {
+func (p *Push) SetTag(options map[string]string) (map[string]interface{}, error) {
+	var httpUrl = p.url + "/channel"
 
+	options["method"] = "set_tag"
+	addDefaultOptions(options, httpUrl, p.apiKey, p.secretKey)
+
+	res, err := Request("POST", httpUrl, nil, options)
+
+	return res, err
 }
 
-func (p *Push) FetchTag() {
+func (p *Push) FetchTag(options map[string]string) (map[string]interface{}, error) {
+	var httpUrl = p.url + "/channel"
 
+	options["method"] = "fetch_tag"
+	addDefaultOptions(options, httpUrl, p.apiKey, p.secretKey)
+
+	res, err := Request("POST", httpUrl, nil, options)
+
+	return res, err
 }
 
-func (p *Push) DeleteTag() {
+func (p *Push) DeleteTag(options map[string]string) (map[string]interface{}, error) {
+	var httpUrl = p.url + "/channel"
 
+	options["method"] = "delete_tag"
+	addDefaultOptions(options, httpUrl, p.apiKey, p.secretKey)
+
+	res, err := Request("POST", httpUrl, nil, options)
+
+	return res, err
 }
 
-func (p *Push) QueryUserTags() {
+func (p *Push) QueryUserTags(options map[string]string) (map[string]interface{}, error) {
+	var httpUrl = p.url + "/channel"
 
+	options["method"] = "query_user_tags"
+	addDefaultOptions(options, httpUrl, p.apiKey, p.secretKey)
+
+	res, err := Request("POST", httpUrl, nil, options)
+
+	return res, err
 }
 
-func (p *Push) QueryDeviceType() {
+func (p *Push) QueryDeviceType(options map[string]string) (map[string]interface{}, error) {
+	var httpUrl = p.url + "/channel"
 
+	options["method"] = "query_device_type"
+	addDefaultOptions(options, httpUrl, p.apiKey, p.secretKey)
+
+	res, err := Request("POST", httpUrl, nil, options)
+
+	return res, err
+}
+
+func addDefaultOptions(options map[string]string, httpUrl, apiKey, secretKey string) {
+	options["apikey"] = apiKey
+	options["timestamp"], _ = cov.String(time.Now().Unix())
+
+	sign, _ := GenerateSign("POST", httpUrl, secretKey, options)
+	options["sign"] = sign
 }
