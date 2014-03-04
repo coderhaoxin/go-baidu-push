@@ -21,7 +21,7 @@ func New(options map[string]string) *Push {
 		p.url = url
 	} else {
 		// default url
-		p.url = "http://localhost:3000"
+		p.url = "http://channel.api.duapp.com/rest/2.0/channel"
 	}
 
 	return p
@@ -40,7 +40,7 @@ func (p *Push) QueryBindList(options map[string]string) (map[string]interface{},
 	return res, err
 }
 
-func (p *Push) PushMsg(options map[string]string, messages map[string]string) (map[string]interface{}, error) {
+func (p *Push) PushMsg(options map[string]string) (map[string]interface{}, error) {
 	var httpUrl = p.url + "/channel"
 
 	options["method"] = "push_msg"

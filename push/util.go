@@ -49,7 +49,7 @@ func Request(method, httpUrl string, headers, options map[string]string) (map[st
 	client := &http.Client{}
 	res, err := client.Do(req)
 	if err != nil {
-		return nil, errors.New("do http request error")
+		return nil, err
 	}
 
 	resBody, err := ioutil.ReadAll(res.Body)
