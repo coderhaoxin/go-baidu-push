@@ -2,7 +2,7 @@ package push
 
 import (
 	"crypto/md5"
-	"encoding/base64"
+	"encoding/hex"
 	"errors"
 	"io/ioutil"
 	"net/http"
@@ -23,7 +23,7 @@ func GenerateSign(httpMethod string, httpUrl string, secretKey string, keyValues
 
 	h := md5.New()
 	h.Write([]byte(url.QueryEscape(httpMethod + httpUrl + kvString + secretKey)))
-	return base64.StdEncoding.EncodeToString(h.Sum(nil)), nil
+	return hex.EncodeToString(h.Sum(nil)), nil
 }
 
 func Request(method, httpUrl string, headers, options map[string]string) (map[string]interface{}, error) {

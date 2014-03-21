@@ -9,7 +9,7 @@ var push = New(map[string]string{
 	"secretKey": "",
 })
 
-var userId = "1100296236057070489"
+var userId = ""
 var tagName = "xxooxoxo"
 
 func TestQueryBindList(t *testing.T) {

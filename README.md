@@ -3,5 +3,8 @@
 ### go-baidu-push
 baidu push golang sdk
 
+### baidu push
+[doc](http://developer.baidu.com/wiki/index.php?title=docs/cplat/push)
+
 ### License
 MIT
