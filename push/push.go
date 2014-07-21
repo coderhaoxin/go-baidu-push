@@ -142,7 +142,9 @@ func (p *Push) QueryUserTags(options map[string]string) (map[string]interface{},
 }
 
 func (p *Push) QueryDeviceType(options map[string]string) (map[string]interface{}, error) {
-	var httpUrl = p.url + "/channel"
+	var httpUrl = p.url + "/" + options["channel"]
+
+	delete(options, "channel")
 
 	options["method"] = "query_device_type"
 	addDefaultOptions(options, httpUrl, p.apiKey, p.secretKey)
@@ -154,7 +156,7 @@ func (p *Push) QueryDeviceType(options map[string]string) (map[string]interface{
 
 func addDefaultOptions(options map[string]string, httpUrl, apiKey, secretKey string) {
 	options["apikey"] = apiKey
-	options["timestamp"], _ = cov.String(time.Now().Unix())
+	options["timestamp"], _ = cov.String(time.Now().Unix() * 1000)
 
 	sign, _ := GenerateSign("POST", httpUrl, secretKey, options)
 	options["sign"] = sign

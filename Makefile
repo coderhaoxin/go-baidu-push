@@ -1,12 +1,12 @@
 GO_FILES = ./push/*.go
 
 test:
-	go test $(GO_FILES)
+	@go test $(GO_FILES)
 
 test-util:
-	go test ./push/util*.go
+	@go test ./push/util*.go
 
 fmt:
-	go fmt $(GO_FILES)
+	@go fmt $(GO_FILES)
 
 .PHONY: test

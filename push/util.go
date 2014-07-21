@@ -27,13 +27,13 @@ func GenerateSign(httpMethod string, httpUrl string, secretKey string, keyValues
 }
 
 func Request(method, httpUrl string, headers, options map[string]string) (map[string]interface{}, error) {
-	v := url.Values{}
-	v.Add("method", options["method"])
-	v.Add("apikey", options["apikey"])
-	v.Add("timestamp", options["timestamp"])
-	v.Add("sign", options["sign"])
+	data := url.Values{}
 
-	body := strings.NewReader(v.Encode())
+	for k, v := range options {
+		data.Add(k, v)
+	}
+
+	body := strings.NewReader(data.Encode())
 	req, err := http.NewRequest(method, httpUrl, body)
 	if err != nil {
 		return nil, errors.New("new http request error")
