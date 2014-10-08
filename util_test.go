@@ -1,8 +1,6 @@
 package push
 
-import (
-	"testing"
-)
+import "testing"
 
 func TestGenerateSign(t *testing.T) {
 	kv := make(map[string]string)

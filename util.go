@@ -1,17 +1,14 @@
 package push
 
-import (
-	"crypto/md5"
-	"encoding/hex"
-	"errors"
-	"io/ioutil"
-	"net/http"
-	"net/url"
-	"sort"
-	"strings"
-
-	"github.com/coderhaoxin/go-convert/cov"
-)
+import "github.com/coderhaoxin/go-convert"
+import "encoding/hex"
+import "crypto/md5"
+import "io/ioutil"
+import "net/http"
+import "strings"
+import "net/url"
+import "errors"
+import "sort"
 
 func GenerateSign(httpMethod string, httpUrl string, secretKey string, keyValues map[string]string) (string, error) {
 	var kv []string
@@ -58,5 +55,5 @@ func Request(method, httpUrl string, headers, options map[string]string) (map[st
 		return nil, err
 	}
 
-	return cov.JSONmap(resBody)
+	return convert.JSONmap(resBody)
 }

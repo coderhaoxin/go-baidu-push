@@ -1,10 +1,7 @@
 package push
 
-import (
-	"time"
-
-	"github.com/coderhaoxin/go-convert/cov"
-)
+import "github.com/coderhaoxin/go-convert"
+import "time"
 
 type Push struct {
 	url       string
@@ -156,7 +153,7 @@ func (p *Push) QueryDeviceType(options map[string]string) (map[string]interface{
 
 func addDefaultOptions(options map[string]string, httpUrl, apiKey, secretKey string) {
 	options["apikey"] = apiKey
-	options["timestamp"], _ = cov.String(time.Now().Unix() * 1000)
+	options["timestamp"], _ = convert.String(time.Now().Unix() * 1000)
 
 	sign, _ := GenerateSign("POST", httpUrl, secretKey, options)
 	options["sign"] = sign

@@ -1,8 +1,6 @@
 package push
 
-import (
-	"testing"
-)
+import "testing"
 
 var push = New(map[string]string{
 	"apiKey":    "",
